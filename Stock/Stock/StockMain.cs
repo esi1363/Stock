@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Stock.ReportsForm;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -45,7 +46,9 @@ namespace Stock
 
         private void productListToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            ProductsList pr = new ProductsList();
+            pr.MdiParent = this;
+            pr.Show();
         }
 
         private void stockListToolStripMenuItem_Click(object sender, EventArgs e)
