@@ -13,7 +13,7 @@ namespace Stock
 {
     public partial class StockMain : Form
     {
-        public static SqlConnection conn = new SqlConnection(@"Data Source=ESFANDIYARI-PC\SQL2016;Initial Catalog=Stock;Integrated Security=True");
+        public static SqlConnection conn = Connection.GetConnection();
         
         public StockMain()
         {
@@ -22,7 +22,13 @@ namespace Stock
 
         private void StockMain_FormClosed(object sender, FormClosedEventArgs e)
         {
-            Application.Exit();
+            DialogResult dr = MessageBox.Show("Are you sure to exit application?", "Warrning", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (dr == DialogResult.Yes)
+            {
+                Application.Exit();
+            }else
+            {
+            }
         }
 
         private void productsToolStripMenuItem_Click(object sender, EventArgs e)

@@ -27,29 +27,46 @@ namespace Stock
 
         private void button2_Click(object sender, EventArgs e)
         {
-            InsertOrUpdate(Int32.Parse(tbCode.Text.Trim()));
-            ReloadProducts();
+            if (Validation())
+            {
+                InsertOrUpdate(Int32.Parse(tbCode.Text.Trim()));
+                ReloadProducts();
+                btnAddUpdate.Text = "Add";
+                ResetControls(); 
+            }
+            else
+            {
+                MessageBox.Show("Please fill all fields.", "Warrning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                tbCode.Focus();
+            }
         }
 
         private void InsertOrUpdate(int key)
         {
             String query = "";
-            if (IsExistsProduct(key))
+            if (Validation())
             {
-                query = @"UPDATE [Products]   SET  [ProductName] = '"+
-                    tbName.Text+"',[ProductStatus] = '"+ ((cmbStatus.SelectedIndex == 0) ? true : false) 
-                    + "' WHERE [ProductCode] = "+key+"";
-            }
-            else
+                if (IsExistsProduct(key))
+                {
+                    query = @"UPDATE [Products]   SET  [ProductName] = '" +
+                        tbName.Text + "',[ProductStatus] = '" + ((cmbStatus.SelectedIndex == 0) ? true : false)
+                        + "' WHERE [ProductCode] = " + key + "";
+                }
+                else
+                {
+                    query = @"INSERT INTO [dbo].[Products] ([ProductCode],[ProductName],[ProductStatus]) VALUES
+                    ('" + tbCode.Text + "','" + tbName.Text.Trim() + "' ,'" +
+                        ((cmbStatus.SelectedIndex == 0) ? true : false) + "')";
+                }
+                StockMain.conn.Open();
+                SqlCommand cmdNewProduct = new SqlCommand(query, StockMain.conn);
+                cmdNewProduct.ExecuteNonQuery();
+                StockMain.conn.Close();
+            }else
             {
-                query= @"INSERT INTO [dbo].[Products] ([ProductCode],[ProductName],[ProductStatus]) VALUES
-                    ('" + tbCode.Text + "','" + tbName.Text.Trim() + "' ,'" + 
-                    ((cmbStatus.SelectedIndex == 0) ? true : false) + "')";
+                MessageBox.Show("Please fill all fields.", "Warrning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                tbCode.Focus();
             }
-            StockMain.conn.Open();
-            SqlCommand cmdNewProduct = new SqlCommand(query, StockMain.conn);
-            cmdNewProduct.ExecuteNonQuery();
-            StockMain.conn.Close();
         }
 
         private bool IsExistsProduct(int key)
@@ -84,7 +101,7 @@ namespace Stock
                 tbCode.Text = dgvProducts.SelectedRows[0].Cells[0].Value.ToString();
                 tbName.Text = dgvProducts.SelectedRows[0].Cells[1].Value.ToString();
                 cmbStatus.SelectedIndex = (((dgvProducts.SelectedRows[0].Cells[2].Value.ToString()=="Active")? 0:1));
-
+                btnAddUpdate.Text = "Update";
             }
             catch (Exception)
             {
@@ -93,23 +110,43 @@ namespace Stock
             }
         }
 
+        private void ResetControls()
+        {
+            tbCode.Clear();
+            tbName.Clear();
+            cmbStatus.SelectedIndex = 0;
+            tbCode.Focus();
+        }
         private void btnDelete_Click(object sender, EventArgs e)
         {
             String query = "";
-            if (IsExistsProduct(Int32.Parse(tbCode.Text.Trim())))
+            DialogResult dr = MessageBox.Show("Are you sure to delete?", "Warrning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+            if (dr==DialogResult.Yes)
             {
-                query = @"DELETE FROM [Products] 
+                if (IsExistsProduct(Int32.Parse(tbCode.Text.Trim())))
+                {
+                    query = @"DELETE FROM [Products] 
                     WHERE [ProductCode] = '" + tbCode.Text + "'";
-                StockMain.conn.Open();
-                SqlCommand cmdNewProduct = new SqlCommand(query, StockMain.conn);
-                cmdNewProduct.ExecuteNonQuery();
-                StockMain.conn.Close();
+                    StockMain.conn.Open();
+                    SqlCommand cmdNewProduct = new SqlCommand(query, StockMain.conn);
+                    cmdNewProduct.ExecuteNonQuery();
+                    StockMain.conn.Close();
+                }
+                else
+                {
+                    MessageBox.Show("Does not exist such record.", "Warrning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+                ReloadProducts();
             }
-            else
-            {
-                MessageBox.Show("Does not exist such record.", "Warrning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            }
-            ReloadProducts();
+        }
+
+        private void btnClear_Click(object sender, EventArgs e)
+        {
+            ResetControls();
+        }
+        private bool Validation()
+        {
+            return (!String.IsNullOrEmpty(tbCode.Text) && !String.IsNullOrEmpty(tbName.Text) && cmbStatus.SelectedIndex > -1) ? true : false;
         }
     }
 }

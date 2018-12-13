@@ -27,7 +27,7 @@ namespace Stock
 
         private void button2_Click(object sender, EventArgs e)
         {
-            SqlConnection conn = new SqlConnection(@"Data Source=ESFANDIYARI-PC\SQL2016;Initial Catalog=Stock;Integrated Security=True");
+            SqlConnection conn = StockMain.conn;
             SqlDataAdapter adaptor = new SqlDataAdapter(@"SELECT [Username],[Password] FROM[dbo].[Login] WHERE Username='"+textBox1.Text+"' AND Password='"+textBox2.Text+"'",conn);
             DataTable dt = new DataTable();
             adaptor.Fill(dt);

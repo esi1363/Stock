@@ -77,14 +77,14 @@
             // productListToolStripMenuItem
             // 
             this.productListToolStripMenuItem.Name = "productListToolStripMenuItem";
-            this.productListToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.productListToolStripMenuItem.Size = new System.Drawing.Size(137, 22);
             this.productListToolStripMenuItem.Text = "Product List";
             this.productListToolStripMenuItem.Click += new System.EventHandler(this.productListToolStripMenuItem_Click);
             // 
             // stockListToolStripMenuItem
             // 
             this.stockListToolStripMenuItem.Name = "stockListToolStripMenuItem";
-            this.stockListToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.stockListToolStripMenuItem.Size = new System.Drawing.Size(137, 22);
             this.stockListToolStripMenuItem.Text = "Stock List";
             this.stockListToolStripMenuItem.Click += new System.EventHandler(this.stockListToolStripMenuItem_Click);
             // 
@@ -98,6 +98,7 @@
             this.MainMenuStrip = this.menuStrip;
             this.Name = "StockMain";
             this.Text = "StockMain";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.StockMain_FormClosed);
             this.menuStrip.ResumeLayout(false);
             this.menuStrip.PerformLayout();
