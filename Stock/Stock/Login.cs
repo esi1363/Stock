@@ -11,7 +11,7 @@ using System.Windows.Forms;
 
 namespace Stock
 {
-    public partial class Login : Form
+    public partial class Login : Stimulsoft.Controls.Win.DotNetBar.Metro.MetroForm
     {
         public Login()
         {

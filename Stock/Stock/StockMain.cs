@@ -12,7 +12,7 @@ using System.Windows.Forms;
 
 namespace Stock
 {
-    public partial class StockMain : Form
+    public partial class StockMain : Stimulsoft.Controls.Win.DotNetBar.Metro.MetroForm
     {
         public static SqlConnection conn = Connection.GetConnection();
         
@@ -41,7 +41,9 @@ namespace Stock
 
         private void stockToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            Stocks stocks = new Stocks();
+            stocks.MdiParent = this;
+            stocks.Show();
         }
 
         private void productListToolStripMenuItem_Click(object sender, EventArgs e)
@@ -53,7 +55,9 @@ namespace Stock
 
         private void stockListToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            StockList sr = new StockList();
+            sr.MdiParent = this;
+            sr.Show();
         }
     }
 }

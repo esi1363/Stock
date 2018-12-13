@@ -11,7 +11,7 @@ using System.Windows.Forms;
 
 namespace Stock
 {
-    public partial class frmProducts : Form
+    public partial class frmProducts : Stimulsoft.Controls.Win.DotNetBar.Metro.MetroForm
     {
         public frmProducts()
         {

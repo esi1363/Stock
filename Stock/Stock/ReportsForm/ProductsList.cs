@@ -12,7 +12,7 @@ using System.Windows.Forms;
 
 namespace Stock.ReportsForm
 {
-    public partial class ProductsList : Form
+    public partial class ProductsList : Stimulsoft.Controls.Win.DotNetBar.Metro.MetroForm
     {
         ReportDocument rd = new ReportDocument();
         public ProductsList()
