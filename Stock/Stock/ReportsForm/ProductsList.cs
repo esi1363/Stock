@@ -29,13 +29,16 @@ namespace Stock.ReportsForm
         {
             rd.Load(@"E:\CodeBase\StockRepo\Stock\Stock\Stock\Reports\Products.rpt");
             SqlConnection conn = StockMain.conn;
-            conn.Open();
+            if(conn.State!=ConnectionState.Closed)
+                conn.Open();
             DataSet ds = new DataSet();
             SqlDataAdapter adaptor = new SqlDataAdapter("select * from [Products]",conn);
             DataTable dt = new DataTable();
             adaptor.Fill(dt);
             rd.SetDataSource(dt);
             crystalReportViewer1.ReportSource = rd;
+            conn.Close();
+
         }
     }
 }
